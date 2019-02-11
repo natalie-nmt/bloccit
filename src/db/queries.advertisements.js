@@ -31,6 +31,7 @@ module.exports = {
       description: newAdvertisement.description
     })
     .then((advertisement) => {
+      console.log("!");
       callback(null, advertisement);
     })
     .catch((err) => {
