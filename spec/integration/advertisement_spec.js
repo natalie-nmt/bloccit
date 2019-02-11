@@ -140,7 +140,7 @@ describe("routes : advertisements", () => {
          const options = {
             url: `${base}${this.advertisement.id}/update`,
             form: {
-              title: "Google Advertisements",
+              title: "Google Ads",
               description: "There are a lot of them"
             }
           };
@@ -154,7 +154,7 @@ describe("routes : advertisements", () => {
               where: { id: this.advertisement.id }
             })
             .then((advertisement) => {
-              expect(advertisement.title).toBe("JavaScript Frameworks");
+              expect(advertisement.title).toBe("Google Ads");
               done();
             });
           });

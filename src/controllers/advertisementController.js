@@ -3,6 +3,7 @@ const advertisementQueries = require("../db/queries.advertisements.js");
 module.exports = {
   index(req, res, next){
     advertisementQueries.getAllAdvertisements((err, advertisements) => {
+      console.log("This is the error: " + err);
       if(err) {
         res.redirect(500, "static/index");
       } 
@@ -22,6 +23,7 @@ module.exports = {
       description: req.body.description
     };
     advertisementQueries.addAdvertisement(newAdvertisement, (err, advertisements) => {
+      console.log("This is the error: " + err);
       if(err){
         res.redirect(500, "/advertisements/new");
       } 
