@@ -31,7 +31,6 @@ describe("routes : advertisements", () => {
         it("should return a status code 200 and all advertisements", (done) => {
             request.get(base, (err, res, body) => {
                 expect(res.statusCode).toBe(200);
-                console.log("Hey! The port is " + res.statusCode);
                 expect(err).toBeNull();
                 expect(body).toContain("Advertisements");
                 expect(body).toContain("Google Ads");
