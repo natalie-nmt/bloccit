@@ -51,6 +51,7 @@ module.exports = {
           }
         });
     },
+    
     update(req, res, next){
         flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
           if(err || flair == null){
