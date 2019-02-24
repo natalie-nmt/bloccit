@@ -32,11 +32,7 @@ module.exports = {
   },
 
   show(req, res, next){
-
-    //#1
          topicQueries.getTopic(req.params.id, (err, topic) => {
-    
-    //#2
            if(err || topic == null){
              res.redirect(404, "/");
            } else {
@@ -66,11 +62,7 @@ module.exports = {
   },
   
   update(req, res, next){
-
-    //#1
          topicQueries.updateTopic(req.params.id, req.body, (err, topic) => {
-    
-    //#2
            if(err || topic == null){
              res.redirect(404, `/topics/${req.params.id}/edit`);
            } else {

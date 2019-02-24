@@ -13,6 +13,7 @@
         <form style="display:initial" action="/topics/<%= topic.id %>/destroy" method="post">
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
+        <a href="/topics/<%= topic.id %>/flairs/new" class="btn btn-light">Add Flair</a>
       <p><%= topic.description %></p>
         <hr>
         <h1>Posts</h1>
@@ -20,6 +21,14 @@
           <% topic.posts.forEach((post) => { %>
             <li class="list-group-item">
               <a href="/topics/<%= topic.id %>/posts/<%= post.id %>"> <%= post.title %> </a>
+            </li>
+          <% }) %>
+        </ul>
+        <h1>Flair</h1>
+        <ul class="list-group">
+          <% topic.flairs.forEach((flair) => { %>
+            <li class="list-group-item">
+              <a href="/topics/<%= topic.id %>/flairs/<%= flair.id %>"> <%= flair.name %> </a>
             </li>
           <% }) %>
         </ul>
