@@ -13,7 +13,6 @@ describe("routes : posts", () => {
 
     sequelize.sync({force: true}).then((res) => {
 
-//#1
       Topic.create({
         title: "Winter Games",
         description: "Post your Winter Games stories."
@@ -90,19 +89,39 @@ describe("routes : posts", () => {
          }
        );
      });
+
+    it("should not create a new post that fails validations", (done) => {
+       const options = {
+         url: `${base}/${this.topic.id}/posts/create`,
+         form: {
+           title: "a",
+           body: "b"
+         }
+       };
+
+       request.post(options,
+         (err, res, body) => {
+           Post.findOne({where: {title: "a"}})
+           .then((post) => {
+               expect(post).toBeNull();
+               done();
+           })
+           .catch((err) => {
+             console.log(err);
+             done();
+           });
+         }
+       );
+     });
  
   });
 
   describe("POST /topics/:topicId/posts/:id/destroy", () => {
 
     it("should delete the post with the associated ID", (done) => {
-
-//#1
       expect(this.post.id).toBe(1);
 
       request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
-
-//#2
         Post.findById(1)
         .then((post) => {
           expect(err).toBeNull();
@@ -143,11 +162,12 @@ describe("routes : posts", () => {
       });
     });
 
-    it("should update the post with the given values", (done) => {
+     it("should update the post with the given values", (done) => {
         const options = {
           url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
           form: {
-            title: "Snowman Building Competition"
+            title: "Snowman Building Competition",
+            body: this.post.body
           }
         };
         request.post(options,
