@@ -77,7 +77,32 @@ describe("routes : topics", () => {
             }
           );
         });
-    });
+
+        it("should not create a new topic that fails validations", (done) => {
+          const options = {
+            url: `${base}/${this.topic.id}/topics/create`,
+            form: {
+              title: "c",
+              body: "d"
+            }
+          };
+   
+          request.post(options,
+            (err, res, body) => {
+              Topic.findOne({where: {title: "c"}})
+              .then((topic) => {
+                  expect(topic).toBeNull();
+                  done();
+              })
+              .catch((err) => {
+                console.log(err);
+                done();
+              });
+            }
+          );
+        });
+    
+     });
     
     describe("GET /topics/:id", () => {
 
@@ -94,17 +119,11 @@ describe("routes : topics", () => {
     describe("POST /topics/:id/destroy", () => {
 
       it("should delete the topic with the associated ID", (done) => {
- 
-  //#1
         Topic.all()
         .then((topics) => {
- 
-  //#2
           const topicCountBeforeDelete = topics.length;
- 
           expect(topicCountBeforeDelete).toBe(1);
- 
-  //#3
+
           request.post(`${base}${this.topic.id}/destroy`, (err, res, body) => {
             Topic.all()
             .then((topics) => {
@@ -143,12 +162,12 @@ describe("routes : topics", () => {
               description: "There are a lot of them"
             }
           };
- //#1
+
           request.post(options,
             (err, res, body) => {
  
             expect(err).toBeNull();
- //#2
+
             Topic.findOne({
               where: { id: this.topic.id }
             })
