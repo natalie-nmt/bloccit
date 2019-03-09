@@ -8,9 +8,11 @@ module.exports = {
         let newPost= {
           title: req.body.title,
           body: req.body.body,
-          topicId: req.params.topicId
+          topicId: req.params.topicId,
+          userId: req.user.id
         };
         postQueries.addPost(newPost, (err, post) => {
+          console.log(err, post);
           if(err){
             res.redirect(500, "/posts/new");
           } else {
