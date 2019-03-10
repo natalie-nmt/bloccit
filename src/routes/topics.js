@@ -11,7 +11,7 @@ router.post("/topics/create", helper.ensureAuthenticated, validation.validateTop
 router.get("/topics/:id", topicController.show);
 router.post("/topics/:id/destroy", topicController.destroy);
 router.get("/topics/:id/edit", topicController.edit);
-router.post("/topics/:id/update", validation.validateTopics, topicController.update);
-router.post("/topics/:topicId/posts/:id/destroy", postController.destroy);
+router.post("/topics/:id/update", helper.ensureAuthenticated, validation.validateTopics, topicController.update);
+// router.post("/topics/:topicId/posts/:id/destroy", postController.destroy);
 
 module.exports = router;
