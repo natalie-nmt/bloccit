@@ -1,18 +1,15 @@
 module.exports = {
     validatePosts(req, res, next) {
       if(req.method === "POST") {
-        console.log("validatePosts is being called")
         req.checkParams("topicId", "must be valid").notEmpty().isInt();
         req.checkBody("title", "must be at least 2 characters in length").isLength({min: 2});
         req.checkBody("body", "must be at least 10 characters in length").isLength({min: 10});
       }
       const errors = req.validationErrors();
       if (errors) {
-        console.log("validatePosts errors is being called")
         req.flash("error", errors);
         return res.redirect(303, req.headers.referer)
       } else {
-        console.log("validatePosts 'else' is being called")
         return next();
       }
     },
