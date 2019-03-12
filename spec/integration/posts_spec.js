@@ -1,4 +1,4 @@
-/* const request = require("request");
+const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics";
 const sequelize = require("../../src/db/models/index").sequelize;
@@ -45,6 +45,8 @@ describe("routes : posts", () => {
 
   });
 
+  
+ 
   describe("guest (non-user) performing CRUD actions on post", () => {
 
     describe("GET /topics/:topicId/posts/new", () => {
@@ -150,9 +152,9 @@ describe("routes : posts", () => {
 
     });
 
-  });
+  }); 
 
-/*   describe("member user performing CRUD actions on post", () => {
+  describe("member user performing CRUD actions on post", () => {
 
     beforeEach((done) => {
       User.create({
@@ -497,8 +499,7 @@ describe("routes : posts", () => {
 
     });
 
-  }); */
+  });
 
 });
 
- */
