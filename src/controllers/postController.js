@@ -31,7 +31,7 @@ module.exports = {
       })
     } else {
       req.flash("notice", "You are not authorized to do that.");
-      res.redirect("/posts");
+      res.redirect(`/topics/${req.params.topicId}/`);
     }
   },
 
@@ -52,11 +52,12 @@ module.exports = {
         if (err) {
           res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
         } else {
-          res.redirect(303, `/topics/${req.params.topicId}`)
+          res.redirect(303, `/topics/${req.params.topicId}/posts/${req.params.id}`)
         }
       });
     } else {
       req.flash("notice", "You are not authorized to do that.");
+      res.redirect(`/topics/${req.params.topicId}/`);
     }
   },
 
@@ -72,6 +73,7 @@ module.exports = {
       });
     } else {
       req.flash("notice", "You are not authorized to do that.");
+      res.redirect(`/topics/${req.params.topicId}/`);
     }
   },
 
@@ -87,6 +89,7 @@ module.exports = {
       });
     } else {
       req.flash("notice", "You are not authorized to do that.");
+      res.redirect(`/topics/${req.params.topicId}/`);
     }
   }
 };
