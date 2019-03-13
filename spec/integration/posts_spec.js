@@ -45,8 +45,8 @@ describe("routes : posts", () => {
 
   });
 
-  
- 
+
+
   describe("guest (non-user) performing CRUD actions on post", () => {
 
     describe("GET /topics/:topicId/posts/new", () => {
@@ -152,7 +152,7 @@ describe("routes : posts", () => {
 
     });
 
-  }); 
+  });
 
   describe("member user performing CRUD actions on post", () => {
 
@@ -181,7 +181,7 @@ describe("routes : posts", () => {
       it("should render a new post form", (done) => {
         request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toBeNull("New Post");
+          expect(body).toContain("New Post");
           done();
         });
       });
@@ -354,7 +354,7 @@ describe("routes : posts", () => {
       it("should render a new post form", (done) => {
         request.get(`${base}/${this.topic.id}/posts/new`, (err, res, body) => {
           expect(err).toBeNull();
-          expect(body).toBeNull("New Post");
+          expect(body).toContain("New Post");
           done();
         });
       });
