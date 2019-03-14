@@ -6,6 +6,7 @@ const Topic = require("../../src/db/models").Topic;
 const Post = require("../../src/db/models").Post;
 const User = require("../../src/db/models").User;
 
+
 describe("routes : posts", () => {
 
   beforeEach((done) => {
@@ -45,7 +46,7 @@ describe("routes : posts", () => {
 
   });
 
-  describe("member user performing CRUD actions on a post they've created", () => {
+  describe("member user performing CRUD actions on a post", () => {
 
     beforeEach((done) => {
       User.create({
