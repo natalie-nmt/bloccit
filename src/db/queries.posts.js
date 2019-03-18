@@ -15,15 +15,15 @@ module.exports = {
       })
   },
 
-  getPost(id, callback) {
+  getPost(id, callback){
     return Post.findById(id, {
       include: [
-        {model: Comment, as: "comments", include: [
-          {model: User },
-          {model: Vote, as: "votes"}
-        ]}
+       {model: Comment, as: "comments", include: [
+          {model: User }
+        ]}, {model: Vote, as: "votes"}
       ]
     })
+
       .then((post) => {
         callback(null, post);
       })
