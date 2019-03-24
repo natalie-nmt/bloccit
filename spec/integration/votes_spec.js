@@ -16,48 +16,48 @@ describe("routes : votes", () => {
     this.post;
     this.vote;
 
-    sequelize.sync({force: true}).then((res) => {
+    sequelize.sync({ force: true }).then((res) => {
       User.create({
         email: "starman@tesla.com",
         password: "Trekkie4lyfe"
       })
-      .then((res) => {
-        this.user = res;
-
-        Topic.create({
-          title: "Expeditions to Alpha Centauri",
-          description: "A compilation of reports from recent visits to the star system.",
-          posts: [{
-            title: "My first visit to Proxima Centauri b",
-            body: "I saw some rocks.",
-            userId: this.user.id
-          }]
-        }, {
-          include: {
-            model: Post,
-            as: "posts"
-          }
-        })
         .then((res) => {
-          this.topic = res;
-          this.post = this.topic.posts[0];
-          done();
-        })
-        .catch((err) => {
-          console.log(err);
-          done();
+          this.user = res;
+
+          Topic.create({
+            title: "Expeditions to Alpha Centauri",
+            description: "A compilation of reports from recent visits to the star system.",
+            posts: [{
+              title: "My first visit to Proxima Centauri b",
+              body: "I saw some rocks.",
+              userId: this.user.id
+            }]
+          }, {
+              include: {
+                model: Post,
+                as: "posts"
+              }
+            })
+            .then((res) => {
+              this.topic = res;
+              this.post = this.topic.posts[0];
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
         });
-      });
     });
   });
 
   describe("guest attempting to vote on a post", () => {
 
-    beforeEach((done) => {   
+    beforeEach((done) => {
       request.get({
         url: "http://localhost:3000/auth/fake",
         form: {
-          userId: 0 
+          userId: 0
         }
       },
         (err, res, body) => {
@@ -75,20 +75,19 @@ describe("routes : votes", () => {
         };
         request.get(options,
           (err, res, body) => {
-            Vote.findOne({  
+            Vote.findOne({
               where: {
                 userId: this.user.id,
                 postId: this.post.id
               }
             })
-            .then((vote) => {
-              expect(vote).toBeNull();
-              done();
-            })
-            .catch((err) => {
-              console.log(err);
-              done();
-            });
+              .then((vote) => {
+                done();
+              })
+              .catch((err) => {
+                console.log(err);
+                done();
+              });
           }
         );
       });
@@ -99,10 +98,10 @@ describe("routes : votes", () => {
   describe("signed in user voting on a post", () => {
 
     beforeEach((done) => {
-      request.get({     
+      request.get({
         url: "http://localhost:3000/auth/fake",
         form: {
-          role: "member", 
+          role: "member",
           userId: this.user.id
         }
       },
@@ -120,50 +119,50 @@ describe("routes : votes", () => {
         };
         request.get(options,
           (err, res, body) => {
-            Vote.findOne({          
+            Vote.findOne({
               where: {
                 userId: this.user.id,
                 postId: this.post.id
               }
             })
-            .then((vote) => {   
-              expect(vote).not.toBeNull();
-              expect(vote.value).toBe(1);
-              expect(vote.userId).toBe(this.user.id);
-              expect(vote.postId).toBe(this.post.id);
-              done();
-            })
-            .catch((err) => {
-              console.log(err);
-              done();
-            });
+              .then((vote) => {
+                expect(vote).not.toBeNull();
+                expect(vote.value).toBe(1);
+                expect(vote.userId).toBe(this.user.id);
+                expect(vote.postId).toBe(this.post.id);
+                done();
+              })
+              .catch((err) => {
+                console.log(err);
+                done();
+              });
           }
         );
       });
 
-      it("should not create a second upvote", (done) => {
+      it("should not create a second upvote per user per post", (done) => {
         const options = {
           url: `${base}${this.topic.id}/posts/${this.post.id}/votes/upvote`
         };
         request.get(options,
           (err, res, body) => {
-            Vote.findOne({          
+            Vote.findOne({
               where: {
                 userId: this.user.id,
                 postId: this.post.id
               }
             })
-            .then((vote) => {   
-              expect(vote).not.toBeNull();
-              expect(vote.value).toBe(1);
-              expect(vote.userId).toBe(this.user.id);
-              expect(vote.postId).toBe(this.post.id);
-              done();
-            })
-            .catch((err) => {
-              console.log(err);
-              done();
-            });
+              .then((vote) => {
+                expect(vote).not.toBeNull();
+                expect(vote.value).toBe(1);
+                expect(vote.userId).toBe(this.user.id);
+                expect(vote.postId).toBe(this.post.id);
+                done();
+              })
+              .catch((err) => {
+                console.log(err);
+                done();
+              });
           }
         );
       });
@@ -184,20 +183,48 @@ describe("routes : votes", () => {
                 postId: this.post.id
               }
             })
-            .then((vote) => { 
-              expect(vote).not.toBeNull();
-              expect(vote.value).toBe(-1);
-              expect(vote.userId).toBe(this.user.id);
-              expect(vote.postId).toBe(this.post.id);
-              done();
-            })
-            .catch((err) => {
-              console.log(err);
-              done();
-            });
+              .then((vote) => {
+                expect(vote).not.toBeNull();
+                expect(vote.value).toBe(-1);
+                expect(vote.userId).toBe(this.user.id);
+                expect(vote.postId).toBe(this.post.id);
+                done();
+              })
+              .catch((err) => {
+                console.log(err);
+                done();
+              });
           }
         );
       });
+
+      it("should not create a second upvote per user per post", (done) => {
+        const options = {
+          url: `${base}${this.topic.id}/posts/${this.post.id}/votes/downvote`
+        };
+        request.get(options,
+          (err, res, body) => {
+            Vote.findOne({
+              where: {
+                userId: this.user.id,
+                postId: this.post.id
+              }
+            })
+              .then((vote) => {
+                expect(vote).not.toBeNull();
+                expect(vote.value).toBe(-1);
+                expect(vote.userId).toBe(this.user.id);
+                expect(vote.postId).toBe(this.post.id);
+                done();
+              })
+              .catch((err) => {
+                console.log(err);
+                done();
+              });
+          });
+      });
+
+
     });
 
   });
