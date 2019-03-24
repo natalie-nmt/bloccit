@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       as: "votes"
     });
   };
-
+  
   Post.prototype.getPoints = function () {
     if (this.votes.length === 0) return 0;
 
@@ -54,7 +54,6 @@ module.exports = (sequelize, DataTypes) => {
     });
     return hasVote;
   };
-  
   Post.prototype.hasDownvoteFor = function (thisUserId) {
     let hasVote = false;
     this.votes.forEach((vote) => {
