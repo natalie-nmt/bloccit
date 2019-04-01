@@ -4,21 +4,22 @@ const base = "http://localhost:3000/users/";
 const User = require("../../src/db/models").User;
 const sequelize = require("../../src/db/models/index").sequelize;
 const Topic = require("../../src/db/models").Topic;
- const Post = require("../../src/db/models").Post;
- const Comment = require("../../src/db/models").Comment;
+const Post = require("../../src/db/models").Post;
+const Comment = require("../../src/db/models").Comment;
+const Favorite = require("../../src/db/models").Favorite;
 
 describe("routes : users", () => {
 
   beforeEach((done) => {
 
-    sequelize.sync({force: true})
-    .then(() => {
-      done();
-    })
-    .catch((err) => {
-      console.log(err);
-      done();
-    });
+    sequelize.sync({ force: true })
+      .then(() => {
+        done();
+      })
+      .catch((err) => {
+        console.log(err);
+        done();
+      });
 
   });
 
@@ -49,17 +50,17 @@ describe("routes : users", () => {
       request.post(options,
         (err, res, body) => {
 
-          User.findOne({where: {email: "user@example.com"}})
-          .then((user) => {
-            expect(user).not.toBeNull();
-            expect(user.email).toBe("user@example.com");
-            expect(user.id).toBe(1);
-            done();
-          })
-          .catch((err) => {
-            console.log(err);
-            done();
-          });
+          User.findOne({ where: { email: "user@example.com" } })
+            .then((user) => {
+              expect(user).not.toBeNull();
+              expect(user.email).toBe("user@example.com");
+              expect(user.id).toBe(1);
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
         }
       );
     });
@@ -74,15 +75,15 @@ describe("routes : users", () => {
           }
         },
         (err, res, body) => {
-          User.findOne({where: {email: "no"}})
-          .then((user) => {
-            expect(user).toBeNull();
-            done();
-          })
-          .catch((err) => {
-            console.log(err);
-            done();
-          });
+          User.findOne({ where: { email: "no" } })
+            .then((user) => {
+              expect(user).toBeNull();
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
         }
       );
     });
@@ -114,37 +115,37 @@ describe("routes : users", () => {
         email: "starman@tesla.com",
         password: "Trekkie4lyfe"
       })
-      .then((res) => {
-        this.user = res;
-
-        Topic.create({
-          title: "Winter Games",
-          description: "Post your Winter Games stories.",
-          posts: [{
-            title: "Snowball Fighting",
-            body: "So much snow!",
-            userId: this.user.id
-          }]
-        }, {
-          include: {
-            model: Post,
-            as: "posts"
-          }
-        })
         .then((res) => {
-          this.post = res.posts[0];
+          this.user = res;
 
-          Comment.create({
-            body: "This comment is alright.",
-            postId: this.post.id,
-            userId: this.user.id
-          })
-          .then((res) => {
-            this.comment = res;
-            done();
-          })
+          Topic.create({
+            title: "Winter Games",
+            description: "Post your Winter Games stories.",
+            posts: [{
+              title: "Snowball Fighting",
+              body: "So much snow!",
+              userId: this.user.id
+            }]
+          }, {
+              include: {
+                model: Post,
+                as: "posts"
+              }
+            })
+            .then((res) => {
+              this.post = res.posts[0];
+
+              Comment.create({
+                body: "This comment is alright.",
+                postId: this.post.id,
+                userId: this.user.id
+              })
+                .then((res) => {
+                  this.comment = res;
+                  done();
+                })
+            })
         })
-      })
 
     });
 
@@ -157,6 +158,26 @@ describe("routes : users", () => {
         done();
       });
 
+    });
+
+    it("should present a list of the posts a user has favorited", (done) => {
+      request.get(`${base}${this.user.id}`, (err, res, body) => {
+        Favorite.findAll({
+          where: {
+            userId: this.user.id,
+            postId: this.post.id
+          }
+        })
+          .then((favorite) => {
+            expect(body).toContain("Snowball Fighting");
+            expect(body).toContain("This comment is alright.");
+            done();
+          })
+          .catch((err) => {
+            console.log(err);
+            done();
+          })
+      });
     });
   });
 
