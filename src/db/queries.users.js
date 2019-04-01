@@ -43,13 +43,13 @@ module.exports = {
                 .then((comments) => {
 
                   result["comments"] = comments;
-                  callback(null, result);
+                  
                 })
                 .catch((err) => {
                   callback(err);
                 })
 
-              Favorite.scope({ method: ["favoritedPosts", id] }).all()
+              Favorite.scope({ method: ["lastFiveFor", id] }).all()
                 .then((favorites) => {
 
                   result["favorites"] = favorites;
