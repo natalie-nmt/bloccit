@@ -100,6 +100,7 @@ describe("routes : favorites", () => {
     });
 
     describe("signed in user favoriting a post", () => {
+       var savedFavorite = null; 
 
         beforeEach((done) => {
             request.get({
@@ -130,10 +131,12 @@ describe("routes : favorites", () => {
                             }
                         })
                             .then((favorite) => {
+                                var savedFavorite = favorite;
                                 expect(favorite).not.toBeNull();
                                 expect(favorite.userId).toBe(this.user.id);
                                 expect(favorite.postId).toBe(this.post.id);
                                 done();
+                            
                             })
                             .catch((err) => {
                                 console.log(err);
@@ -147,11 +150,8 @@ describe("routes : favorites", () => {
         describe("POST /topics/:topicId/posts/:postId/favorites/:id/destroy", () => {
 
             it("should destroy a favorite", (done) => {
-                const options = {
-                    url: `${base}${this.topic.id}/posts/${this.post.id}/favorites/create`
-                };
 
-                request.post(options, (err, res, body) => {
+                request.post(savedFavorite, (err, res, body) => {
                     this.post.getFavorites()
                         .then((favorites) => {
                             const favorite = favorites[0];
