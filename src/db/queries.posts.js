@@ -16,6 +16,7 @@ module.exports = {
       })
   },
 
+  
   getPost(id, callback){
     return Post.findById(id, {
       include: [
