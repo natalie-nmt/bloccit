@@ -68,8 +68,6 @@ describe("routes : posts", () => {
         });
       });
 
-// Add redirect to sign up page confirmation here
-
     });
 
     describe("GET /topics/:topicId/posts/:id", () => {
