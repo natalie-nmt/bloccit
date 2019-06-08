@@ -1,28 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <% include ./partials/head.ejs %>
-  </head>
-  <body>
+
+<head>
+  <% include ./partials/head.ejs %>
+</head>
+
+<body>
 
   <% include ./partials/navbar.ejs %>
-      
-      <!-- Page Content -->
-      <main class="container">
 
-        <!-- Jumbotron Header -->
-        <header class="jumbotron my-4">
-          <h1 class="display-3">About Bloccit</h1>
-          <p class="lead">Bloccit is an application for users to share information.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </header>
+  <main class="container">
 
-        <!-- /.row -->
+    <header class="jumbotron my-4">
+      <h1 class="display-3">About Bloccit</h1>
+      <p class="lead">Bloccit is an application for users to share information.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.</p>
+    </header>
 
-      </main>
-      <!-- /.container -->
+    <hr />
 
-      <% include ./partials/baseScripts.ejs %>
-    </body>
+    <form action="/about" method="post">
+
+      <div class="form-group">
+        <label for="number1">Number 1</label>
+        <input type="number" class="form-control" name="number1" placeholder="7">
+      </div>
+
+      <div class="form-group">
+        <select name="operator">
+          <option value="+">+</option>
+          <!-- <option value="-">-</option>
+          <option value="*">*</option>
+          <option value="/">/</option> -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Number 2</label>
+        <input type="number" class="form-control" name="number2" placeholder="10">
+        </div>
+
+      <button type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+
+  </main>
+
+  <% include ./partials/baseScripts.ejs %>
+</body>
+
 </html>
